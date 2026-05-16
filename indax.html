@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مؤقت امتحانات البكالوريا</title>
+    <!-- استدعاء مكتبة تليجرام الرسمية للتطبيقات المصغرة -->
+    <script src="https://telegram.org"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #1c1c1e;
+            color: #ffffff;
+            text-align: center;
+            padding: 20px;
+            margin: 0;
+        }
+        .container {
+            max-width: 400px;
+            margin: auto;
+            background: #2c2c2e;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+        }
+        h1 { color: #3498db; font-size: 24px; margin-bottom: 5px; }
+        h2 { color: #f1c40f; font-size: 18px; margin-top: 0; }
+        .timer {
+            display: flex;
+            justify-content: space-around;
+            margin: 25px 0;
+        }
+        .time-box {
+            background: #3a3a3c;
+            padding: 10px;
+            border-radius: 8px;
+            width: 70px;
+        }
+        .time-num { font-size: 24px; font-weight: bold; color: #2ecc71; }
+        .time-label { font-size: 12px; color: #aaaaaa; }
+        .footer {
+            margin-top: 30px;
+            font-size: 12px;
+            color: #8e8e93;
+            border-top: 1px solid #3a3a3c;
+            padding-top: 15px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>⏰ العد التنازلي للامتحانات</h1>
+    <h2>مرحلة البكالوريا - المعهد التعليمي</h2>
+    
+    <div class="timer">
+        <div class="time-box">
+            <div class="time-num" id="days">00</div>
+            <div class="time-label">يوم</div>
+        </div>
+        <div class="time-box">
+            <div class="time-num" id="hours">00</div>
+            <div class="time-label">ساعة</div>
+        </div>
+        <div class="time-box">
+            <div class="time-num" id="minutes">00</div>
+            <div class="time-box">
+            <div class="time-num" id="seconds">00</div>
+            <div class="time-label">ثانية</div>
+        </div>
+    </div>
+
+    <div class="footer">
+        © 2026 جميع الحقوق محفوظة لـ <br>
+        <strong>بوت الأوائل التعليمي 🎓</strong>
+    </div>
+</div>
+
+<script>
+    // تفعيل ميزات تليجرام للتطبيقات المصغرة
+    window.Telegram.WebApp.ready();
+    window.Telegram.WebApp.expand(); // لفتح التطبيق بملء الشاشة
+
+    // 🛑 حدد تاريخ الامتحان هنا (السنة، الشهر "ينقص 1 لأن يناير=0"، اليوم، الساعة، الدقيقة)
+    // كمثال هنا: 15 يونيو 2026 الساعة 8 صباحاً (6 تعني شهر يونيو لأن العد يبدأ من 0)
+    const examDate = new Date(2026, 6, 6, 8, 0, 0).getTime();
+
+    const countdown = setInterval(function() {
+        const now = new Date().getTime();
+        const distance = examDate - now;
+
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        document.getElementById("days").innerText = days < 10 ? "0" + days : days;
+        document.getElementById("hours").innerText = hours < 10 ? "0" + hours : hours;
+        document.getElementById("minutes").innerText = minutes < 10 ? "0" + minutes : minutes;
+        document.getElementById("seconds").innerText = seconds < 10 ? "0" + seconds : seconds;
+
+        if (distance < 0) {
+            clearInterval(countdown);
+            document.querySelector(".timer").innerHTML = "<h3 style='color:#e74c3c;'>بالتوفيق للجميع! بدأت الامتحانات 🚀</h3>";
+        }
+    }, 1000);
+</script>
+
+</body>
+</html>
